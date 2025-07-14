@@ -1,0 +1,32 @@
+# common fixes
+machine:
+  # The disk used for installations. (see: https://www.talos.dev/v1.10/introduction/getting-started/#modifying-the-machine-configs)
+  install:
+    diskSelector:
+      size: ">= 100GB"
+    wipe: false # Indicates if the installation disk should be wiped at installation time.
+    # see: https://factory.talos.dev/?arch=amd64&cmdline=amd_pstate%3Dpassive+cpufreq.default_governor%3Dschedutil+pcie_aspm%3Dforce+idle%3Dnomwait&cmdline-set=true&extensions=-&extensions=siderolabs%2Famdgpu&extensions=siderolabs%2Famd-ucode&platform=metal&target=metal&version=1.10.4
+    image: factory.talos.dev/metal-installer/914d2d9090c5ef94da765105b9fa23579946af42c52f483281fdc77bf8f529bd:v1.10.4
+cluster:
+  # Allows running workload on control-plane nodes.
+  allowSchedulingOnControlPlanes: true
+--- # Configure VIP (see: https://www.talos.dev/v1.10/talos-guides/network/vip/)
+machine:
+  network:
+    interfaces:
+    - deviceSelector:
+        physical: true
+      dhcp: true
+      # vip:
+      #   ip: 10.9.8.1
+# cluster:
+#   controlPlane:
+#     # set to the VIP (see: https://kubito.dev/posts/talos-linux-virtual-ip-setup/)
+#     endpoint: https://10.9.8.1:6443
+--- # Prepare for Cilium w/o Kube Proxy (https://www.talos.dev/v1.10/kubernetes-guides/network/deploying-cilium/)
+cluster:
+  network:
+    cni:
+      name: none
+  proxy:
+    disabled: true
