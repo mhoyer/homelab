@@ -2,15 +2,18 @@
 
 ARGOCD_NAMESPACE="argo-cd"
 
-helm upgrade -i --create-namespace \
-  -n "${ARGOCD_NAMESPACE}" \
+helm upgrade --install \
+  --create-namespace -n "${ARGOCD_NAMESPACE}" \
   argo-cd \
   oci://ghcr.io/argoproj/argo-helm/argo-cd \
   --version 8.1.3 \
   -f values.yaml
 
-echo "Waiting for ArgoCD to be ready..."
+echo "Waiting for ArgoCD to be ready."
 kubectl -n "${ARGOCD_NAMESPACE}" wait --for=condition=Ready --timeout=300s pod -l app.kubernetes.io/name=argocd-server
+
+echo "Deploying self-referencing ArgoCD application."
+kubectl apply -f argo-cd.app.yaml -n "${ARGOCD_NAMESPACE}"
 
 ARGOCD_ADMIN_PASSWORD=$(kubectl -n "${ARGOCD_NAMESPACE}" get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 echo "ArgoCD is ready. Admin password: ${ARGOCD_ADMIN_PASSWORD}"
