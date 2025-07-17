@@ -1,0 +1,8 @@
+gitops:
+  sources:
+    - repoURL: "https://helm.cilium.io"
+      chart: cilium
+      targetRevision: 1.15.6
+      helm:
+        valueFiles:
+          - $gitops_source/gitops/cilium/values.yaml
