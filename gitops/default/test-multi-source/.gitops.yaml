@@ -1,0 +1,5 @@
+gitops:
+  sources:
+    - repoURL: https://github.com/mhoyer/homelab.git
+      targetRevision: HEAD
+      path: "gitops/default/test-multi-source"
