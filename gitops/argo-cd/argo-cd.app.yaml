@@ -9,7 +9,7 @@ spec:
     namespace: argo-cd
     server: https://kubernetes.default.svc
   sources:
-    - repoURL: "oci://ghcr.io/argoproj/argo-helm"
+    - repoURL: "ghcr.io/argoproj/argo-helm"
       chart: argo-cd
       targetRevision: 8.1.3
       helm:
