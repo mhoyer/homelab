@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: gitops
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/mhoyer/homelab.git
+        revision: HEAD
+        files:
+          - path: gitops/*/.gitops.yaml
+  template:
+    metadata:
+      annotations:
+        debug: ".gitops: {{ .gitops | toJson }}"
+      name: "{{ .path.basename }}"
+    spec:
+      project: "default"
+      sources:
+        - repoURL: https://github.com/mhoyer/homelab.git
+          targetRevision: HEAD
+          path: "{{ .path.path }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{ index .path.segments 1 }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+  templatePatch: |
+    spec:
+      {{- if and .gitops .gitops.sources }}
+      metadata:
+        annotations:
+          yes: yes
+      sources:
+        - repoURL: https://github.com/mhoyer/homelab.git
+          targetRevision: HEAD
+          ref: gitops_source
+        {{ .gitops.sources | toYaml | nindent 4 }}
+      {{- else }}
+      metadata:
+        annotations:
+          no: yes
+      {{- end }}
