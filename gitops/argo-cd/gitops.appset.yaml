@@ -33,17 +33,16 @@ spec:
           - CreateNamespace=true
   templatePatch: |
     spec:
+      metadata: {}
       {{- if and .gitops .gitops.sources }}
-      metadata:
-        annotations:
-          yes: yes
       sources:
         - repoURL: https://github.com/mhoyer/homelab.git
           targetRevision: HEAD
           ref: gitops_source
         {{ .gitops.sources | toYaml | nindent 4 }}
-      {{- else }}
-      metadata:
-        annotations:
-          no: yes
+      {{- end }}
+
+      {{- if and .gitops .gitops.syncPolicy }}
+      syncPolicy:
+        {{ .gitops.syncPolicy | toYaml | nindent 4 }}
       {{- end }}

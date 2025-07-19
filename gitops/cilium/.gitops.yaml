@@ -6,3 +6,8 @@ gitops:
       helm:
         valueFiles:
           - $gitops_source/gitops/cilium/values.yaml
+
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: "privileged"
