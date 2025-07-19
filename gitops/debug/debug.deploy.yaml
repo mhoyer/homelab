@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debug
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: debug
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: debug
+    spec:
+      containers:
+      - name: swiss-army-knife
+        image: leodotcloud/swiss-army-knife:latest
+        command: ["/bin/sleep", "3650d"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop: ["ALL"]
+          seccompProfile:
+            type: "RuntimeDefault"
