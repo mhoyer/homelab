@@ -7,7 +7,7 @@ helm upgrade --install \
   argo-cd \
   oci://ghcr.io/argoproj/argo-helm/argo-cd \
   --version 8.1.3 \
-  -f values.yaml
+  -f argo-cd/values.yaml
 
 echo "Waiting for ArgoCD to be ready."
 kubectl -n "${ARGOCD_NAMESPACE}" wait --for=condition=Ready --timeout=300s pod -l app.kubernetes.io/name=argocd-server

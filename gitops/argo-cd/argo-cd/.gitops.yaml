@@ -5,4 +5,4 @@ gitops:
       targetRevision: 8.1.3
       helm:
         valueFiles:
-          - $gitops_source/gitops/argo-cd/values.yaml
+          - $gitops_source/gitops/argo-cd/argo-cd/values.yaml

@@ -9,7 +9,7 @@ spec:
         repoURL: https://github.com/mhoyer/homelab.git
         revision: HEAD
         files:
-          - path: gitops/*/.gitops.yaml
+          - path: gitops/**/.gitops.yaml
   template:
     metadata:
       annotations:
