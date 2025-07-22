@@ -14,6 +14,7 @@ spec:
     metadata:
       annotations:
         debug: ".gitops: {{ .gitops | toJson }}"
+        debug/path: "{{ index .path.segments 1 }}"
       name: "{{ .path.basename }}"
     spec:
       project: "default"
@@ -23,7 +24,7 @@ spec:
           path: "{{ .path.path }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{ index .path.segments 1 }}"
+        namespace: "{{ index .path.segments 1 | default 'default' }}"
       syncPolicy:
         automated:
           prune: true
