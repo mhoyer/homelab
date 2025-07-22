@@ -6,4 +6,3 @@ gitops:
       helm:
         valueFiles:
           - $gitops_source/gitops/argo-cd/values.yaml
-
