@@ -4,7 +4,6 @@ metadata:
   name: gitops
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
         repoURL: https://github.com/mhoyer/homelab.git
@@ -33,7 +32,6 @@ spec:
           - CreateNamespace=true
   templatePatch: |
     spec:
-      metadata: {}
       {{- if and .gitops .gitops.sources }}
       sources:
         - repoURL: https://github.com/mhoyer/homelab.git
@@ -41,7 +39,6 @@ spec:
           ref: gitops_source
         {{ .gitops.sources | toYaml | nindent 4 }}
       {{- end }}
-
       {{- if and .gitops .gitops.syncPolicy }}
       syncPolicy:
         {{ .gitops.syncPolicy | toYaml | nindent 4 }}
