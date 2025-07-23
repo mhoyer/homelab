@@ -16,24 +16,17 @@ if [ -z "${talos_node}" ]; then
   exit 1
 fi
 
-echo "\nGenerating .merged-patches.yaml files"
 mkdir -p ".generated"
-yq eval-all '. as $item ireduce ({}; . * $item )' ./controlplane.patches.yaml > .generated/controlplane.merged-patches.yaml
-yq eval-all '. as $item ireduce ({}; . * $item )' ./worker.patches.yaml       > .generated/worker.merged-patches.yaml
-
 echo "\nGenerating the configs from the merged patches and secrets"
 talosctl gen config \
   --force \
   --with-secrets .secrets.yaml \
   --output .generated/ \
-  --config-patch-control-plane @.generated/controlplane.merged-patches.yaml \
-  --config-patch-worker @.generated/worker.merged-patches.yaml \
+  --config-patch-control-plane @controlplane.patches.yaml \
+  --config-patch-worker @worker.patches.yaml \
   "${talos_context}" "${talos_endpoint}"
 
 echo "\nMoving the talosconfig to $HOME/.talos/config"
 mkdir -p $HOME/.talos
 mv .generated/talosconfig $HOME/.talos/config
 talosctl config endpoint "${talos_node}"
-
-echo "\nCleaning up .generated directory"
-rm .generated/*.merged-patches.yaml

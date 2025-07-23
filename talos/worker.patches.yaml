@@ -1,20 +1,14 @@
-# common fixes
 machine:
   # The disk used for installations. (see: https://www.talos.dev/v1.10/introduction/getting-started/#modifying-the-machine-configs)
   install:
     diskSelector:
       size: ">= 100GB"
     image: factory.talos.dev/metal-installer/914d2d9090c5ef94da765105b9fa23579946af42c52f483281fdc77bf8f529bd:v1.10.4
-# ---
-# Configure VIP (see: https://www.talos.dev/v1.10/talos-guides/network/vip/)
-# cluster:
 #   controlPlane:
-#     # set to the VIP (see: https://kubito.dev/posts/talos-linux-virtual-ip-setup/)
-#     endpoint: https://10.9.8.1:6443
----
-# Deploy Cilium w/o Kube Proxy (https://www.talos.dev/v1.10/kubernetes-guides/network/deploying-cilium/)
+#     endpoint: https://10.9.8.1:6443 # set to the VIP (see: https://kubito.dev/posts/talos-linux-virtual-ip-setup/)
 cluster:
   network:
+    # For Cilium w/o Kube Proxy (https://www.talos.dev/v1.10/kubernetes-guides/network/deploying-cilium/)
     cni:
       name: none
   proxy:
