@@ -4,7 +4,7 @@ set -e
 
 if [ ! -f .secrets.yaml ]; then
   echo "\nGenerating .secrets.yaml"
-  talosctl gen secrets --output .secrets.yaml
+  talosctl gen secrets --output-file .secrets.yaml
 fi
 
 talos_node="${1}"
