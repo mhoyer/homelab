@@ -13,7 +13,7 @@ echo "Waiting for ArgoCD to be ready."
 kubectl -n "${ARGOCD_NAMESPACE}" wait --for=condition=Ready --timeout=300s pod -l app.kubernetes.io/name=argocd-server
 
 echo "Deploying self-referencing ArgoCD application."
-kubectl apply -f gitops.appset.yaml -n "${ARGOCD_NAMESPACE}"
+kubectl apply -f argo-cd-appset/gitops.appset.yaml -n "${ARGOCD_NAMESPACE}"
 
 ARGOCD_ADMIN_PASSWORD=$(kubectl -n "${ARGOCD_NAMESPACE}" get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 echo "\n✅ ArgoCD is ready. Admin password: ${ARGOCD_ADMIN_PASSWORD}"
