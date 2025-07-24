@@ -5,7 +5,7 @@ gitops:
       targetRevision: 1.15.6
       helm:
         valueFiles:
-          - $gitops_source/gitops/cilium/cilium/values.yaml
+          - $gitops_source/gitops/kube-system/cilium/values.yaml
 
   syncPolicy:
     managedNamespaceMetadata:
