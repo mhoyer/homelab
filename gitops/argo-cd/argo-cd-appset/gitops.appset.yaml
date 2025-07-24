@@ -14,17 +14,12 @@ spec:
     metadata:
       annotations:
         debug: ".gitops: {{ .gitops | toJson }}"
-        debug/path: "{{ index .path.segments 1 }}"
       name: "{{ .path.basename }}"
     spec:
       project: "default"
-      sources:
-        - repoURL: https://github.com/mhoyer/homelab.git
-          targetRevision: HEAD
-          path: "{{ .path.path }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: "{{ index .path.segments 1 | default 'default' }}"
+        namespace: "{{ index .path.segments 1 }}"
       syncPolicy:
         automated:
           prune: true
@@ -39,6 +34,11 @@ spec:
           targetRevision: HEAD
           ref: gitops_source
         {{ .gitops.sources | toYaml | nindent 4 }}
+      {{- else }}
+      source:
+        repoURL: https://github.com/mhoyer/homelab.git
+        targetRevision: HEAD
+        path: "{{ .path.path }}"
       {{- end }}
       {{- if and .gitops .gitops.syncPolicy }}
       syncPolicy:
