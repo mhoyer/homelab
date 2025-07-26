@@ -14,6 +14,8 @@ configs:
   cm:
     users.anonymous.enabled: true
   params:
+    controller.status.processors: 8 # default: 20
+    controller.operation.processors: 4 # default: 10
     reposerver.parallelism.limit: 4
   rbac:
     defaultPolicy: "role:readonly"
