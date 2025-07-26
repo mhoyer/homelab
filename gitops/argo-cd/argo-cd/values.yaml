@@ -11,6 +11,8 @@ notifications:
   enabled: false
 
 configs:
+  cm:
+    users.anonymous.enabled: true
   params:
     reposerver.parallelism.limit: 4
   rbac:
