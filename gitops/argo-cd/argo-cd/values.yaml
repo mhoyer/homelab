@@ -13,3 +13,5 @@ notifications:
 configs:
   params:
     reposerver.parallelism.limit: 4
+  rbac:
+    defaultPolicy: "role:readonly"
