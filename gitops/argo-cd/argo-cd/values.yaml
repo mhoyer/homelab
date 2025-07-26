@@ -1,6 +1,13 @@
 # ref: https://github.com/argoproj/argo-helm/blob/main/charts/argo-cd/values.yaml
 crds:
   install: false
+global:
+  domain: argocd.k.pixelplastic.de
+server:
+  enabled: true
+  ingress:
+    enabled: true
+
 dex:
   enabled: false
 # redis:
@@ -17,5 +24,6 @@ configs:
     controller.status.processors: 8 # default: 20
     controller.operation.processors: 4 # default: 10
     reposerver.parallelism.limit: 4
+    server.insecure: true
   rbac:
     defaultPolicy: "role:readonly"
