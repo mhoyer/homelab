@@ -24,3 +24,9 @@ cluster:
       name: none
   proxy:
     disabled: true
+
+  discovery:
+    enabled: true
+    registries:
+      service:
+        disabled: true
